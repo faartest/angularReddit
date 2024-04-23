@@ -1,4 +1,5 @@
 import { Component, HostBinding, OnInit } from '@angular/core';
+import { Article } from './article.model';
 
 @Component({
   selector: 'app-article',
@@ -7,20 +8,20 @@ import { Component, HostBinding, OnInit } from '@angular/core';
 })
 export class ArticleComponent implements OnInit {
   @HostBinding('attr.class') cssClass = 'row';
-  title: string;
-  votes: number;
-  link: string;
+  article: Article;
   constructor() {
-    this.title = 'Angular';
-    this.link = 'http://angular.io';
-    this.votes = 10;
+    this.article = new Article('angular', 'http://angular.io', 10);
   }
 
   voteUp() {
-    this.votes += 1;
+    this.article.voteUp();
+    return false; /*
+    con poner false evitamos que se recargue la pagina cada ves que apretamos voteUp y voteDown. El reload sucede debido a que js propaga los eventos al parent, como encuetra un link vacio, el browser recarga la pagina
+    */
   }
   voteDown() {
-    this.votes -= 1;
+    this.article.voteDown();
+    return false;
   }
   ngOnInit(): void {}
 }
